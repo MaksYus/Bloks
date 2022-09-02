@@ -70,8 +70,8 @@ void MainMenuState::initButtons(){
                                       sf::Color(70, 70, 70, 200),
                                      sf::Color(150,150,150,200),
                                      sf::Color(20, 20, 20, 255));
-    this->buttons["EDITOR_STATE"] = new Button(1600.f, 220.f, 150.f, 50.f,
-                                     &this->font, "Editor",30,
+    this->buttons["TEST_STATE"] = new Button(1600.f, 220.f, 150.f, 50.f,
+                                     &this->font, "TEST",30,
                                              sf::Color(255,255,255,200), sf::Color(255,255,255,200), sf::Color(255, 255, 255, 200),
                                       sf::Color(70, 70, 70, 200),
                                      sf::Color(150,150,150,200),
@@ -104,11 +104,11 @@ void MainMenuState::updateButtons(){
     }
 
     if(this->buttons["GAME_STATE"]->isPressed()){
-      //  this->states->push(new GameState(this->window, this->supportedKeys, this->states));
+        this->states->push(new GameState(this->window, this->supportedKeys, this->states));
     }
 
-    if(this->buttons["EDITOR_STATE"]->isPressed()){
-    //    this->states->push(new EditorState(this->window, this->supportedKeys, this->states));
+    if(this->buttons["TEST_STATE"]->isPressed()){
+    //    начать проигрывание анимации
     }
 }
 

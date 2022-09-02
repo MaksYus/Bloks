@@ -57,7 +57,7 @@ void Player::updateAnimation(const float & dt)
         this->sprite.setScale(-1.f,1.f);
     }
 
-    this->plaingAnimation = !this->animationComponent->play(this->getMovingState(this->moveToKey), dt);
+    //this->plaingAnimation = !this->animationComponent->play(this->getMovingState(this->moveToKey), dt);
     }
 }
 

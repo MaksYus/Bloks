@@ -27,6 +27,7 @@ class Entity
 
     private:
         sf::Vector2f position;
+        int moveTimer;
         void initVariables();
 };
 

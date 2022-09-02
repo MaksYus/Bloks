@@ -69,5 +69,5 @@ void GameState::initTextures(){
 }
 
 void GameState::initPlayers(){
-    this->player = new Player(0, 0, this->textures);
+    this->player = new Player(20, 5, this->textures);
 }

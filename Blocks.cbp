@@ -71,6 +71,8 @@
 		<Unit filename="Game.h" />
 		<Unit filename="GameState.cpp" />
 		<Unit filename="GameState.h" />
+		<Unit filename="MainMenuState.cpp" />
+		<Unit filename="MainMenuState.h" />
 		<Unit filename="ResourceFiles/Button.cpp" />
 		<Unit filename="ResourceFiles/Button.h" />
 		<Unit filename="State.cpp" />
