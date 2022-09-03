@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(float x, float y, std::map<std::string, sf::Texture>  texture_sheets):
-    textureSheets(texture_sheets), animationCut(0)
+Player::Player(float x, float y, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19]):
+    textureSheets(texture_sheets), animationCut(0), Entity(arrMap)
 {
     this->setPosition(x, y);
 

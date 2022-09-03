@@ -1,7 +1,15 @@
 #include "Entity.h"
 
-Entity::Entity()
+Entity::Entity(int(&arrMap)[11][19])
 {
+    for(int i = 0; i < 11; i++){
+        for(int j = 0;j < 19; j++){
+            this->arrMap[j][i] = arrMap[i][j];
+            std::cout << arrMap[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
     this->initVariables();
 }
 
@@ -51,14 +59,20 @@ void Entity::setPosition(const float x, const float y){
            this->sprite.setPosition(x, y);
 }
 
+bool Entity::checkMap(int i, int j){
+    return this->arrMap[i][j];
+}
+
 void Entity::move(const float dir_x, const float dir_y, const float& dt){
     this->moveTimer++;
     if (this->moveTimer >= 11 ){
         if((this->position.x == 18 & dir_x > 0) || (this->position.y == 10 & dir_y > 0) || (this->position.y == 0 & dir_y < 0) || (this->position.x == 0 & dir_x < 0)) {}
         else{
-            this->position += sf::Vector2f(dir_x*1,dir_y*1);
-            this->sprite.move(dir_x*100, dir_y*100);
-            this->moveTimer = 0;
+            if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){
+                this->position += sf::Vector2f(dir_x*1,dir_y*1);
+                this->sprite.move(dir_x*100, dir_y*100);
+                this->moveTimer = 0;
+            }
         }
     }
 }

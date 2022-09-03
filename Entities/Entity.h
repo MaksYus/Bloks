@@ -6,7 +6,7 @@
 class Entity
 {
     public:
-        Entity();
+        Entity(int(&arrMap)[11][19]);
         virtual ~Entity();
 
         virtual sf::Vector3f lookingAt();
@@ -29,6 +29,8 @@ class Entity
         sf::Vector2f position;
         int moveTimer;
         void initVariables();
+        int arrMap[19][11];
+        bool checkMap(int i, int j);
 };
 
 #endif // ENTITY_H

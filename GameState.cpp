@@ -5,6 +5,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
 {
     this->initKeybinds();
     this->initTextures();
+    this->initMap();
     this->initPlayers();
 }
 
@@ -69,5 +70,10 @@ void GameState::initTextures(){
 }
 
 void GameState::initPlayers(){
-    this->player = new Player(20, 5, this->textures);
+    this->player = new Player(20, 5, this->textures, this->arrMap);
+}
+
+void GameState::initMap(){
+    //Временное решение
+
 }

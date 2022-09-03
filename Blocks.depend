@@ -1279,16 +1279,16 @@
 	<SFML/Network/IpAddress.hpp>
 	<vector>
 
-1662132486 source:c:\users\usufm\documents\github\bloks\entities\entity.cpp
+1662220918 source:c:\users\usufm\documents\github\bloks\entities\entity.cpp
 	"Entity.h"
 
-1662126384 c:\users\usufm\documents\github\bloks\entities\entity.h
+1662220768 c:\users\usufm\documents\github\bloks\entities\entity.h
 	<AnimationComponent.h>
 
-1662126252 source:c:\users\usufm\documents\github\bloks\entities\player.cpp
+1662220748 source:c:\users\usufm\documents\github\bloks\entities\player.cpp
 	"Player.h"
 
-1660481600 c:\users\usufm\documents\github\bloks\entities\player.h
+1662220743 c:\users\usufm\documents\github\bloks\entities\player.h
 	"Entity.h"
 
 1662044446 source:c:\users\usufm\documents\github\bloks\game.cpp
@@ -1314,10 +1314,10 @@
 	"SFML/Network.hpp"
 	"Player.h"
 
-1662132587 source:c:\users\usufm\documents\github\bloks\gamestate.cpp
+1662218970 source:c:\users\usufm\documents\github\bloks\gamestate.cpp
 	"GameState.h"
 
-1660482236 c:\users\usufm\documents\github\bloks\gamestate.h
+1662220708 c:\users\usufm\documents\github\bloks\gamestate.h
 	"State.h"
 
 1660480152 source:c:\users\usufm\documents\github\bloks\main.cpp
