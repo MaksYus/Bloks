@@ -59,6 +59,15 @@ void Entity::setSpritePosition(const float x, const float y){
            this->sprite.setPosition(x, y);
 }
 
+bool Entity::setPosition(const int x, const int y){
+    if (this->checkMap(x,y)){
+        this->setSpritePosition(x*100, y*100);
+        this->position = sf::Vector2i(x,y);
+        return true;
+    }
+    else return false;
+}
+
 sf::Vector2i Entity::getPosition(){
     return this->position;
 }

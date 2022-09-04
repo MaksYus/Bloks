@@ -117,16 +117,16 @@ void GameState::startEvent(std::string key){
         this->endState();
     }
     else if(key == "MAP1"){
-        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+        this->player->setPosition(5,3);
     }
     else if(key == "MAP2"){
-        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+        this->player->setPosition(5,3);
     }
     else if(key == "MAP3"){
-        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+        this->player->setPosition(5,3);
     }
     else if(key == "MAP4"){
-        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+        this->player->setPosition(5,3);
     }
 }
 

@@ -19,6 +19,7 @@ class Entity
 
         virtual void setSpritePosition(const float x, const float y);
         virtual sf::Vector2i getPosition();
+        virtual bool setPosition(const int x, const int y);
         virtual void move(const float x, const float y, const float& dt);
 
     protected:
