@@ -3,7 +3,7 @@
 Player::Player( sf::Vector2i position, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19]):
     textureSheets(texture_sheets), animationCut(0), Entity(position,arrMap)
 {
-    this->setSpritePosition(position.x*100 + 20, position.y*100 + 10);
+    this->setSpritePosition(position.x*100 + 10, position.y*100 + 27);
 
     this->initVariables();
     this->initComponents();

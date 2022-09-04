@@ -61,7 +61,7 @@ void Entity::setSpritePosition(const float x, const float y){
 
 bool Entity::setPosition(const int x, const int y){
     if (this->checkMap(x,y)){
-        this->setSpritePosition(x*100, y*100);
+        this->setSpritePosition(x*100 + 10, y*100 + 27);
         this->position = sf::Vector2i(x,y);
         return true;
     }

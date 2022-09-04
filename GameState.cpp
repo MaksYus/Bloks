@@ -5,6 +5,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
 {
     this->initKeybinds();
     this->initTextures();
+    this->initBackground();
     this->initMap();
     this->initPlayers();
     this->initEvents();
@@ -41,6 +42,7 @@ void GameState::update(const float& dt){
 void GameState::render(sf::RenderTarget* target){
     if (!target)
         target = this->window;
+    target->draw(this->background);
     this->player->render(*target);
 
 }
@@ -109,6 +111,17 @@ void GameState::initMap(){
         for(int j = 0; j<19; j++){
             this->arrMap[i][j] = arrMap[i][j];
         }
+    }
+}
+
+void GameState::initBackground(){
+    this->background.setSize(sf::Vector2f(static_cast<float>(this->window->getSize().x), static_cast<float>(this->window->getSize().y)));
+
+    if(this->bgTexture.loadFromFile("ResourceFiles/Images/Backgrounds/GameState.png")){
+        this->background.setTexture(&this->bgTexture);
+    }
+    else {
+        std::cout << "ERROR! cunt load background gamestate" << std::endl;
     }
 }
 

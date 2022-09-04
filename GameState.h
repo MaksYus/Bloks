@@ -16,6 +16,8 @@ class GameState : public State
     protected:
 
     private:
+        sf::RectangleShape background;
+        sf::Texture bgTexture;
         Player *player;
         std::map<std::string,sf::Vector2i> eventsPosition;
         std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
@@ -25,6 +27,7 @@ class GameState : public State
         void initPlayers();
         void initMap();
         void initEvents();
+        void initBackground();
 
         void startEvent(std::string key);
         void eventOnPosition();
