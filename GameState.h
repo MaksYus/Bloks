@@ -17,24 +17,18 @@ class GameState : public State
 
     private:
         Player *player;
+        std::map<std::string,sf::Vector2i> eventsPosition;
+        std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
 
         void initKeybinds();
         void initTextures();
         void initPlayers();
         void initMap();
-        int arrMap[11][19]= {
-    {1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
-    {1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0}
-    };
+        void initEvents();
+
+        void startEvent(std::string key);
+        void eventOnPosition();
+        int arrMap[11][19];
 };
 
 #endif // GAMESTATE_H

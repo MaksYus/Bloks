@@ -1,9 +1,9 @@
 #include "Player.h"
 
-Player::Player(float x, float y, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19]):
-    textureSheets(texture_sheets), animationCut(0), Entity(arrMap)
+Player::Player( sf::Vector2i position, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19]):
+    textureSheets(texture_sheets), animationCut(0), Entity(position,arrMap)
 {
-    this->setPosition(x, y);
+    this->setSpritePosition(position.x*100 + 20, position.y*100 + 10);
 
     this->initVariables();
     this->initComponents();

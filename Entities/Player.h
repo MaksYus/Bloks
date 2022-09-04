@@ -7,7 +7,7 @@ class Player:
     public Entity
 {
     public:
-        Player(float x, float y,std::map<std::string, sf::Texture> texture_sheets, int(&arrMap)[11][19]);
+        Player( sf::Vector2i position, std::map<std::string, sf::Texture> texture_sheets, int(&arrMap)[11][19]);
         virtual ~Player();
 
         virtual sf::Vector3f lookingAt();

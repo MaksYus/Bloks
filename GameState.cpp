@@ -7,6 +7,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
     this->initTextures();
     this->initMap();
     this->initPlayers();
+    this->initEvents();
 }
 
 GameState::~GameState()
@@ -58,6 +59,14 @@ void GameState::updateInput(const float& dt){
         this->player->move(1.f, 0.f, dt);
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
         this->endState();
+
+
+    sf::Vector2i playerPosition = this->player->getPosition();
+    for (this->it_eventsPosition = this->eventsPosition.begin(); this->it_eventsPosition != this->eventsPosition.end(); this->it_eventsPosition++){
+        if(this->it_eventsPosition->second == playerPosition){
+            this->startEvent(this->it_eventsPosition->first);
+        }
+    }
     /*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INTERACT"))))
         this->player->interact(*this->player);*/
 }
@@ -70,10 +79,57 @@ void GameState::initTextures(){
 }
 
 void GameState::initPlayers(){
-    this->player = new Player(20, 5, this->textures, this->arrMap);
+    this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+}
+
+void GameState::initEvents(){
+    this->eventsPosition["QUIT"] = sf::Vector2i(5,5);
+    this->eventsPosition["MAP1"] = sf::Vector2i(7,5);
+    this->eventsPosition["MAP2"] = sf::Vector2i(9,5);
+    this->eventsPosition["MAP3"] = sf::Vector2i(11,5);
+    this->eventsPosition["MAP4"] = sf::Vector2i(13,5);
 }
 
 void GameState::initMap(){
     //Временное решение
+    int arrMap[11][19]= {
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
+    {0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0},
+    {0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    };
+    for(int i = 0; i < 11; i++){
+        for(int j = 0; j<19; j++){
+            this->arrMap[i][j] = arrMap[i][j];
+        }
+    }
+}
+
+void GameState::startEvent(std::string key){
+    if(key == "QUIT"){
+        this->endState();
+    }
+    else if(key == "MAP1"){
+        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+    }
+    else if(key == "MAP2"){
+        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+    }
+    else if(key == "MAP3"){
+        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+    }
+    else if(key == "MAP4"){
+        this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+    }
+}
+
+void GameState::eventOnPosition(){
 
 }

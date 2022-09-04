@@ -1,6 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(int(&arrMap)[11][19])
+Entity::Entity(sf::Vector2i position,int(&arrMap)[11][19]):
+    position(position)
 {
     for(int i = 0; i < 11; i++){
         for(int j = 0;j < 19; j++){
@@ -25,7 +26,7 @@ void Entity::update(const float& dt){
 void Entity::render(sf::RenderTarget& target){
     target.draw(this->sprite);
 
-    std::cout << this->position.x <<" "<< this->position.y<<std::endl;
+    //std::cout << this->position.x <<" "<< this->position.y<<std::endl;
 
     sf::Text EntityPositionText;
     EntityPositionText.setPosition(this->position.x, this->position.y - 20);
@@ -39,7 +40,6 @@ void Entity::render(sf::RenderTarget& target){
 
 void Entity::initVariables(){
     this->animationComponent = NULL;
-    this->position = sf::Vector2f(0,0);
     this->moveTimer = 0;
 }
 
@@ -55,8 +55,12 @@ void Entity::createAnimationComponent(){
     this->animationComponent = new AnimationComponent(this->sprite);
 }
 
-void Entity::setPosition(const float x, const float y){
+void Entity::setSpritePosition(const float x, const float y){
            this->sprite.setPosition(x, y);
+}
+
+sf::Vector2i Entity::getPosition(){
+    return this->position;
 }
 
 bool Entity::checkMap(int i, int j){
@@ -69,7 +73,7 @@ void Entity::move(const float dir_x, const float dir_y, const float& dt){
         if((this->position.x == 18 & dir_x > 0) || (this->position.y == 10 & dir_y > 0) || (this->position.y == 0 & dir_y < 0) || (this->position.x == 0 & dir_x < 0)) {}
         else{
             if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){
-                this->position += sf::Vector2f(dir_x*1,dir_y*1);
+                this->position += sf::Vector2i(dir_x*1,dir_y*1);
                 this->sprite.move(dir_x*100, dir_y*100);
                 this->moveTimer = 0;
             }
