@@ -1,9 +1,10 @@
 #include "Player.h"
 
-Player::Player( sf::Vector2i position, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19]):
-    textureSheets(texture_sheets), animationCut(0), Entity(position,arrMap)
+Player::Player( sf::Vector2i position, std::map<std::string, sf::Texture>  texture_sheets, int(&arrMap)[11][19], int moveCooldown):
+    textureSheets(texture_sheets), animationCut(0), Entity(position,arrMap,moveCooldown)
 {
     this->setSpritePosition(position.x*100 + 10, position.y*100 + 27);
+    this->secondPosition = sf::Vector2i(position.x + 1, position.y);
 
     this->initVariables();
     this->initComponents();
@@ -42,6 +43,7 @@ void Player::initAnimations(){
 
 void Player::update(const float&dt){
     this->updateAnimation(dt);
+    if (this->moveTimer > 0) {this->moveTimer--;}
 }
 
 void Player::updateAnimation(const float & dt)
@@ -70,9 +72,67 @@ sf::Vector3f Player::lookingAt(){
     return this->look;
 }
 
-std::string Player::getMovingState(std::string key){
+void Player::move(const float dir_x, const float dir_y, const float& dt){
 
-    if (key == "UP" || "DOWN"){
+    if (this->moveTimer <= 0 ){
+        if((this->position.x == 18 & dir_x > 0) || (this->position.y == 10 & dir_y > 0) || (this->position.y == 0 & dir_y < 0) || (this->position.x == 0 & dir_x < 0)) {}
+        else{
+                std::string movingState = (dir_x == 0 ? this->getMovingState("UP"):this->getMovingState("LEFT"));
+                std::cout << dir_x << " " << dir_y << " "<< movingState << std::endl;
+                if(movingState == "ROTATEBBU") {
+                        if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){
+                                this->move1(dir_x,dir_y);
+                                this->secondPosition = sf::Vector2i(this->position);
+                                }
+                }
+                else if(movingState == "ROTATESBU"){
+                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                                this->move1(dir_x,dir_y);
+                                this->look = sf::Vector3f(0,0,1);
+                                this->secondPosition = sf::Vector2i(this->position.x+dir_x*2,this->position.y+dir_y*2);
+                                }
+                }
+                else if(movingState == "ROTATEBSU"){
+                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                                this->move1(dir_x*2,dir_y*2);
+                                this->look = sf::Vector3f(0,1,0);
+                                }
+                }
+                else if(movingState == "ROTATEBSR"){
+                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                                this->move1(dir_x*2,dir_y*2);
+                                this->look = sf::Vector3f(0,1,0);
+                                }
+                }
+                else if(movingState == "ROTATESBR"){
+                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                            this->move1(dir_x,dir_y);
+                            this->look = sf::Vector3f(1,0,0);
+                            this->secondPosition = sf::Vector2i(this->position.x+dir_x*2,this->position.y+dir_y*2);
+                            }
+                }
+                else if(movingState == "ROTATEBBR"){
+                        if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){
+                            this->move1(dir_x,dir_y);
+                            this->secondPosition = sf::Vector2i(this->position);
+                            }
+                }
+        }
+    }
+}
+
+
+void Player::move1(const float dir_x, const float dir_y){
+    if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){
+                this->position += sf::Vector2i(dir_x*1,dir_y*1);
+                this->sprite.move(dir_x*100, dir_y*100);
+                this->moveTimer = this->moveCooldown;
+    }
+}
+
+std::string Player::getMovingState(std::string key){
+    std::cout << this->look.x << " " << this->look.y << " "<<this->look.z << " "<< key << std::endl;
+    if (key == "UP" || key == "DOWN"){
        if((this->look.x > this->look.y) && (this->look.x > this->look.z)){
             return "ROTATEBBU";
         }
@@ -83,7 +143,7 @@ std::string Player::getMovingState(std::string key){
             return "ROTATEBSU";
         }
     }
-    else if(key == "RIGHT" || "LEFT"){
+    else if(key == "RIGHT" || key == "LEFT"){
         if((this->look.x > this->look.y) && (this->look.x > this->look.z)){
             return "ROTATEBSR";
         }

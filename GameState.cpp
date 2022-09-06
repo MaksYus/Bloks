@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "Level1.h"
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states):
      State(window, supportedKeys,states)
@@ -81,7 +82,7 @@ void GameState::initTextures(){
 }
 
 void GameState::initPlayers(){
-    this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap);
+    this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap, 15);
 }
 
 void GameState::initEvents(){
@@ -131,15 +132,17 @@ void GameState::startEvent(std::string key){
     }
     else if(key == "MAP1"){
         this->player->setPosition(5,3);
+        this->states->push(new Level1(this->window, this->supportedKeys, this->states));
+        this->endState();
     }
     else if(key == "MAP2"){
-        this->player->setPosition(5,3);
+        //this->player->setPosition(5,3);
     }
     else if(key == "MAP3"){
-        this->player->setPosition(5,3);
+        //this->player->setPosition(5,3);
     }
     else if(key == "MAP4"){
-        this->player->setPosition(5,3);
+        //this->player->setPosition(5,3);
     }
 }
 
