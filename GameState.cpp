@@ -44,6 +44,7 @@ void GameState::render(sf::RenderTarget* target){
     if (!target)
         target = this->window;
     target->draw(this->background);
+    this->drawMap(target);
     this->player->render(*target);
 
 }
@@ -79,6 +80,10 @@ void GameState::initTextures(){
     if(!temp.loadFromFile("ResourceFiles/Images/Sprites/player/Dwarf Left Animation.png"))
         std::cout << "ERROR! cun't load texture player" << std::endl;
     this->textures["PLAYER_SHEET"] = temp;
+
+    if(!temp.loadFromFile("ResourceFiles/Images/Backgrounds/MainMenuBlock.png"))
+        std::cout << "ERROR! cun't load texture MainMenuBlock" << std::endl;
+    this->textures["MAINMENU_BLOCK"] = temp;
 }
 
 void GameState::initPlayers(){
@@ -111,6 +116,18 @@ void GameState::initMap(){
     for(int i = 0; i < 11; i++){
         for(int j = 0; j<19; j++){
             this->arrMap[i][j] = arrMap[i][j];
+        }
+    }
+}
+
+void GameState::drawMap(sf::RenderTarget* target){
+    for (int i = 0; i < 11; i++){
+        for(int j = 0; j < 19; j++){
+            if(this->arrMap[i][j]){
+                sf::Sprite temp = sf::Sprite(this->textures["MAINMENU_BLOCK"]);
+                temp.setPosition(sf::Vector2f(j*100 + 10, i*100 + 27));
+                target->draw(temp);
+            }
         }
     }
 }

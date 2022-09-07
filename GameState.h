@@ -26,6 +26,7 @@ class GameState : public State
         void initTextures();
         void initPlayers();
         void initMap();
+        void drawMap(sf::RenderTarget* target);
         void initEvents();
         void initBackground();
 

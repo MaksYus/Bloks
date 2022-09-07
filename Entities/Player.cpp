@@ -79,6 +79,7 @@ void Player::move(const float dir_x, const float dir_y, const float& dt){
         else{
                 std::string movingState = (dir_x == 0 ? this->getMovingState("UP"):this->getMovingState("LEFT"));
                 std::cout << dir_x << " " << dir_y << " "<< movingState << std::endl;
+                std::cout << "TODOTODOTODOTODO" << std::endl;
                 if(movingState == "ROTATEBBU") {
                         if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){
                                 this->move1(dir_x,dir_y);
