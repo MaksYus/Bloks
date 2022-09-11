@@ -75,60 +75,102 @@ sf::Vector3f Player::lookingAt(){
 void Player::move(const float dir_x, const float dir_y, const float& dt){
 
     if (this->moveTimer <= 0 ){
-        if((this->position.x == 18 & dir_x > 0) || (this->position.y == 10 & dir_y > 0) || (this->position.y == 0 & dir_y < 0) || (this->position.x == 0 & dir_x < 0)) {}
+        if((this->position.x == 18 & dir_x > 0) || (this->position.y == 10 & dir_y > 0) || (this->position.y == 0 & dir_y < 0) || (this->position.x == 0 & dir_x < 0)) {}//проверка на границы карты
         else{
-                std::string movingState = (dir_x == 0 ? this->getMovingState("UP"):this->getMovingState("LEFT"));
+                std::string direction = "";
+                if(dir_x > 0) direction = "RIGHT";
+                if(dir_x < 0) direction = "LEFT";
+                if(dir_y < 0) direction = "UP";
+                if(dir_y > 0) direction = "DOWN";
+                std::string movingState = this->getMovingState(direction);
                 std::cout << dir_x << " " << dir_y << " "<< movingState << std::endl;
                 std::cout << "TODOTODOTODOTODO" << std::endl;
                 if(movingState == "ROTATEBBU") {
-                        if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){
+                        //проверка возможности перемещения в точку
+                        if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y) && this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){ //второстепенная && основная
                                 this->move1(dir_x,dir_y);
-                                this->secondPosition = sf::Vector2i(this->position);
-                                }
+                                this->secondPosition = sf::Vector2i(this->secondPosition.x + dir_x,this->secondPosition.y + dir_y);
+                                //look не меняется
+                        }
                 }
                 else if(movingState == "ROTATESBU"){
-                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                        if( this->checkMap(this->secondPosition.x+dir_x*2,this->secondPosition.y+dir_y*2) && this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){ // второстепенная + основная
+                            if(direction == "UP"){
+                                this->move1(dir_x*2,dir_y*2);
+                                this->secondPosition = sf::Vector2i(this->secondPosition.x + dir_x,this->secondPosition.y + dir_y);
+                            }
+                            else{
                                 this->move1(dir_x,dir_y);
-                                this->look = sf::Vector3f(0,0,1);
-                                this->secondPosition = sf::Vector2i(this->position.x+dir_x*2,this->position.y+dir_y*2);
-                                }
+                                this->secondPosition = sf::Vector2i(this->secondPosition.x+dir_x*2,this->secondPosition.y+dir_y*2);
+                            }
+                            this->look = sf::Vector3f(0,0,1);
+                        }
                 }
                 else if(movingState == "ROTATEBSU"){
-                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
-                                this->move1(dir_x*2,dir_y*2);
+                        if(direction == "UP"){
+                            if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){ //основная
+                                this->move1(dir_x,dir_y);
+                                this->secondPosition = sf::Vector2i(this->position);
                                 this->look = sf::Vector3f(0,1,0);
-                                }
+                            }
+                        }
+                        else{
+                            if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){ //основная
+                                this->move1(dir_x*2,dir_y*2);
+                                this->secondPosition = sf::Vector2i(this->position);
+                                this->look = sf::Vector3f(0,1,0);
+                            }
+                        }
+
                 }
                 else if(movingState == "ROTATEBSR"){
-                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
+                        if(direction == "RIGHT"){
+                            if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){//основная
                                 this->move1(dir_x*2,dir_y*2);
+                                this->secondPosition = sf::Vector2i(this->position);
                                 this->look = sf::Vector3f(0,1,0);
-                                }
+                            }
+                        }
+                        else{
+                            if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){//основная
+                                this->move1(dir_x,dir_y);
+                                this->secondPosition = sf::Vector2i(this->position);
+                                this->look = sf::Vector3f(0,1,0);
+                            }
+                        }
+
                 }
                 else if(movingState == "ROTATESBR"){
-                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2)){
-                            this->move1(dir_x,dir_y);
-                            this->look = sf::Vector3f(1,0,0);
-                            this->secondPosition = sf::Vector2i(this->position.x+dir_x*2,this->position.y+dir_y*2);
+                        if(this->checkMap(this->position.x+dir_x*2,this->position.y+dir_y*2) && this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){//второстепенная && основная
+                            if(direction == "RIGHT"){
+                                this->move1(dir_x,dir_y);
+                                this->secondPosition = sf::Vector2i(this->secondPosition.x+dir_x*2,this->secondPosition.y+dir_y*2);
                             }
+                            else{
+                                this->move1(dir_x*2,dir_y*2);
+                                this->secondPosition = sf::Vector2i(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y);
+                            }
+                            this->look = sf::Vector3f(1,0,0);
+                        }
                 }
                 else if(movingState == "ROTATEBBR"){
-                        if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){
+                        if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y) && this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y)){ //основная + второстепенная
                             this->move1(dir_x,dir_y);
-                            this->secondPosition = sf::Vector2i(this->position);
+                            this->secondPosition = sf::Vector2i(this->secondPosition.x + dir_x,this->secondPosition.y + dir_y);
+                            //look не меняется
                             }
                 }
+
+                std::cout << std::endl << "pos: " << this->position.x << " " << this->position.y << std::endl << " secpos: " << this->secondPosition.x << " " << this->secondPosition.y<< std::endl << "look: " << this->look.x << " " << this->look.y << " " << this->look.z<< std::endl;
         }
     }
 }
 
 
 void Player::move1(const float dir_x, const float dir_y){
-    if(this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){
-                this->position += sf::Vector2i(dir_x*1,dir_y*1);
-                this->sprite.move(dir_x*100, dir_y*100);
-                this->moveTimer = this->moveCooldown;
-    }
+    this->position += sf::Vector2i(dir_x*1,dir_y*1);
+    this->sprite.move(dir_x*100, dir_y*100);
+    this->moveTimer = this->moveCooldown;
 }
 
 std::string Player::getMovingState(std::string key){
