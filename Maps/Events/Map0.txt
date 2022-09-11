@@ -1,0 +1,16 @@
+OnPosition ;
+QUIT ;
+5 5 ;
+endState ;
+- ;
+OnPosition ;
+LoadMap1 ;
+7 5 ;
+loadMap Map1 ;
+teleport 5 3 ;
+OnPosition ; 
+TeleportStart ;
+9 5 ;
+teleport 5 3 ;
+- ;
+EVENT_END

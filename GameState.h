@@ -23,17 +23,23 @@ class GameState : public State
         int playerSpeed;
         std::map<std::string,sf::Vector2i> eventsPosition;
         std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
+        //std::map<std::string,std::li> eventsPosition;
+        //std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
 
         void initKeybinds();
         void initTextures();
         void initPlayers();
         void initMap(std::string mapName);
         void drawMap(sf::RenderTarget* target);
-        void initEvents();
+        void createEventStep(std::string key, std::string eventKey, int row);
+        void initEvents(std::string mapName);
         void initBackground();
 
         void startEvent(std::string key);
         void eventOnPosition();
+        void eventTeleport(const int x, const int y);
+        void eventQuit();
+        void eventLoadMap(std::string mapName);
         int arrMap[11][19];
 };
 
