@@ -9,7 +9,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
     this->initBackground();
     this->initMap("Map0");
     this->initPlayers();
-    this->initEvents();
+    this->initEvents("Map0");
 }
 
 GameState::~GameState()
@@ -18,7 +18,7 @@ GameState::~GameState()
 }
 
 void GameState::initKeybinds(){
-    std::ifstream ifs("Textures/GameState_Keybinds.ini");
+    std::ifstream ifs("Config/GameState_Keybinds.ini");
 
     if(ifs.is_open()){
             std::string key = "";
@@ -29,7 +29,7 @@ void GameState::initKeybinds(){
             }
     }
     else {
-        std::cout << "ERROR! cunt open Textures/GameState_Keybinds.ini" << std::endl;
+        std::cout << "ERROR! cunt open Config/GameState_Keybinds.ini" << std::endl;
     }
     ifs.close();
 }
@@ -63,14 +63,14 @@ void GameState::updateInput(const float& dt){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
         this->endState();
 
-
+/*
     sf::Vector2i playerPosition = this->player->getPosition();
     sf::Vector2i playerSecondPosition = this->player->getSecondPosition();
     for (this->it_eventsPosition = this->eventsPosition.begin(); this->it_eventsPosition != this->eventsPosition.end(); this->it_eventsPosition++){
         if((this->it_eventsPosition->second == playerPosition) || (this->it_eventsPosition->second == playerSecondPosition)){
             this->startEvent(this->it_eventsPosition->first);
         }
-    }
+    }*/
     /*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INTERACT"))))
         this->player->interact(*this->player);*/
 }
@@ -81,7 +81,7 @@ void GameState::initTextures(){
         std::cout << "ERROR! cun't load texture player" << std::endl;
     this->textures["PLAYER_SHEET"] = temp;
 
-    if(!temp.loadFromFile("ResourceFiles/Images/Backgrounds/GrassBlock.png"))
+    if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlock.png"))
         std::cout << "ERROR! cun't load texture GrassBlock" << std::endl;
     this->textures["GRASS_BLOCK"] = temp;
 }
@@ -90,15 +90,19 @@ void GameState::initPlayers(){
     this->player = new Player(this->playerPosition, this->textures, this->arrMap, this->playerSpeed);
 }
 
-void GameState::createEventStep(std::string key, std::string eventKey, int row){
+void GameState::createEventStep(std::string eventName, std::string key, std::string eventKey, int row){
+    if(row == 0 && eventKey != "-") {
+        this->events[eventName].steps.push_back(Step(eventKey,sf::Vector2i(-1,-1),"",false));
+    }
     if(eventKey == "teleport"){
-
+        if(row == 1) this->events[eventName].steps.back().positionToTp.x = std::stoi(key);
+        if(row == 2) this->events[eventName].steps.back().positionToTp.y = std::stoi(key);
     }
     if(eventKey == "loadMap"){
-
+        if(row == 1) this->events[eventName].steps.back().mapNameToLoad = key;
     }
     if(eventKey == "endState"){
-
+        this->events[eventName].steps.back().endState = true;
     }
 }
 
@@ -114,35 +118,35 @@ void GameState::initEvents(std::string mapName){
         int lineEvent = 0;
         int rowEvent = 0;
         sf::Vector2i eventPosition = sf::Vector2i(-1,-1);
+
         while(elemIfs != "EVENT_END"){
             std::string eventKey = "";
+
             while (elemIfs != ";"){
                 if(lineEvent == 0) eventType = elemIfs;
                 if(lineEvent == 1) eventName = elemIfs;
                 if(lineEvent == 2 && rowEvent == 0) eventPosition.x = std::stoi(elemIfs);
                 if(lineEvent == 2 && rowEvent == 1) eventPosition.y = std::stoi(elemIfs);
-                if(lineEvent >= 3 && rowEvent == 0 && elemIfs != "-") eventKey = elemIfs;
+                if(lineEvent >= 3 && rowEvent == 0) eventKey = elemIfs;
                 if(lineEvent >= 3) this->createEventStep(eventName, elemIfs, eventKey, rowEvent);
 
                 ifs >> elemIfs;
                 rowEvent++;
             }
+            if(eventPosition.x != -1 && eventPosition.y != -1 && lineEvent == 2) {
+                this->events.insert(make_pair(eventName,Event(eventType,eventName,eventPosition)));
+            }
+            ifs >> elemIfs;
+
+            if(elemIfs == "EVENT_END"){ break;}
             rowEvent = 0;
             lineEvent++;
-
-            if(eventPosition.x != -1 && eventPosition.y != -1) this->eventsPosition[eventName] = eventPosition;
         }
     }
     else{
         std::cout << "ERROR! COULD NOT OPEN Maps/Map0.txt" << std::endl;
     }
     ifs.close();
-
-    this->eventsPosition["QUIT"] = sf::Vector2i(5,5);
-    this->eventsPosition["MAP1"] = sf::Vector2i(7,5);
-    this->eventsPosition["MAP2"] = sf::Vector2i(9,5);
-    this->eventsPosition["MAP3"] = sf::Vector2i(11,5);
-    this->eventsPosition["MAP4"] = sf::Vector2i(13,5);
 }
 
 void GameState::initMap(std::string mapName){
@@ -193,32 +197,30 @@ void GameState::initBackground(){
     }
 }
 
+void GameState::checkEvent(sf::Vector2i position){
+    for(this->it_events = this->events.begin(); this->it_events != this->events.end();this->it_events++){
+        if(this->it_events->second.position == position) this->startEvent(this->it_events->first);
+    }
+}
+
 void GameState::startEvent(std::string key){
-    if(key == "QUIT"){
-        this->endState();
-    }
-    else if(key == "MAP1"){
-        this->player->setPosition(5,3);
-        this->states->push(new Level1(this->window, this->supportedKeys, this->states));
-        this->endState();
-    }
-    else if(key == "MAP2"){
-        this->player->setPosition(5,3);
-    }
-    else if(key == "MAP3"){
-        this->player->setPosition(5,3);
-    }
-    else if(key == "MAP4"){
-        this->player->setPosition(5,3);
-    }
+    std::list<Step> eventSteps = this->events[key].steps;
+    std::cout << eventSteps.front().stepName << std::endl;
+    /*std::list<Step> it_steps = eventSteps.begin();
+    for(std::list<Step> it_steps = eventSteps.begin(); it_steps != eventSteps.end(); it_steps++){
+        Step step = it_steps->first;
+        if(step.stepName == "QUIT") this->eventQuit();
+        if(step.stepName == "teleport") this->eventTeleport(step.positionToTp);
+        if(step.stepName == "loadMap") this->eventLoadMap(step.mapNameToLoad);
+    }*/
 }
 
 void GameState::eventOnPosition(){
 
 }
 
-void GameState::eventTeleport(const int x, const int y){
-    this->player->setPosition(x,y);
+void GameState::eventTeleport(const sf::Vector2i teleportTo){
+    this->player->setPosition(teleportTo.x,teleportTo.y);
 }
 
 void GameState::eventQuit(){

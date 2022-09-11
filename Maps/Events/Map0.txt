@@ -1,3 +1,4 @@
+Прост
 OnPosition ;
 QUIT ;
 5 5 ;
