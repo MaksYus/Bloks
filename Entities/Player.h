@@ -15,7 +15,10 @@ class Player:
         virtual void update(const float&dt);
 
         virtual void move(const float dir_x, const float dir_y, const float& dt);
+        virtual bool setPosition(const int x, const int y);
         std::string getMovingState(std::string key);
+
+        sf::Vector2i getSecondPosition();
 
     protected:
 

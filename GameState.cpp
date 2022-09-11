@@ -1,5 +1,4 @@
 #include "GameState.h"
-#include "Level1.h"
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states):
      State(window, supportedKeys,states)
@@ -7,7 +6,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
     this->initKeybinds();
     this->initTextures();
     this->initBackground();
-    this->initMap();
+    this->initMap("Map0");
     this->initPlayers();
     this->initEvents();
 }
@@ -18,7 +17,7 @@ GameState::~GameState()
 }
 
 void GameState::initKeybinds(){
-    std::ifstream ifs("Config/GameState_Keybinds.ini");
+    std::ifstream ifs("Textures/GameState_Keybinds.ini");
 
     if(ifs.is_open()){
             std::string key = "";
@@ -29,7 +28,7 @@ void GameState::initKeybinds(){
             }
     }
     else {
-        std::cout << "ERROR! cunt open Config/GameState_Keybinds.ini" << std::endl;
+        std::cout << "ERROR! cunt open Textures/GameState_Keybinds.ini" << std::endl;
     }
     ifs.close();
 }
@@ -49,7 +48,6 @@ void GameState::render(sf::RenderTarget* target){
 
 }
 
-
 void GameState::updateInput(const float& dt){
 
     //Update player Input
@@ -66,8 +64,9 @@ void GameState::updateInput(const float& dt){
 
 
     sf::Vector2i playerPosition = this->player->getPosition();
+    sf::Vector2i playerSecondPosition = this->player->getSecondPosition();
     for (this->it_eventsPosition = this->eventsPosition.begin(); this->it_eventsPosition != this->eventsPosition.end(); this->it_eventsPosition++){
-        if(this->it_eventsPosition->second == playerPosition){
+        if((this->it_eventsPosition->second == playerPosition) || (this->it_eventsPosition->second == playerSecondPosition)){
             this->startEvent(this->it_eventsPosition->first);
         }
     }
@@ -81,13 +80,13 @@ void GameState::initTextures(){
         std::cout << "ERROR! cun't load texture player" << std::endl;
     this->textures["PLAYER_SHEET"] = temp;
 
-    if(!temp.loadFromFile("ResourceFiles/Images/Backgrounds/MainMenuBlock.png"))
-        std::cout << "ERROR! cun't load texture MainMenuBlock" << std::endl;
-    this->textures["MAINMENU_BLOCK"] = temp;
+    if(!temp.loadFromFile("ResourceFiles/Images/Backgrounds/GrassBlock.png"))
+        std::cout << "ERROR! cun't load texture GrassBlock" << std::endl;
+    this->textures["GRASS_BLOCK"] = temp;
 }
 
 void GameState::initPlayers(){
-    this->player = new Player(sf::Vector2i(5,3), this->textures, this->arrMap, 15);
+    this->player = new Player(this->playerPosition, this->textures, this->arrMap, this->playerSpeed);
 }
 
 void GameState::initEvents(){
@@ -98,34 +97,24 @@ void GameState::initEvents(){
     this->eventsPosition["MAP4"] = sf::Vector2i(13,5);
 }
 
-void GameState::initMap(){
-    //Временное решение
-    /*int arrMap[11][19]= {
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0},
-    {0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0},
-    {0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-    };*/
-    int arrMap[11][19]= {
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0},
-    {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-    };
+void GameState::initMap(std::string mapName){
+    std::ifstream ifs("Maps/" + mapName + ".txt");
+    std::string title = "None";
+    int arrMap[11][19];
+    if(ifs.is_open()){
+        std::getline(ifs,title);
+        for(int i = 0; i < 11; i++){
+            for(int j = 0; j < 19; j++){
+                ifs >> arrMap[i][j];
+            }
+        }
+        ifs >> this->playerPosition.x >> this->playerPosition.y >> this->playerSpeed;
+    }
+    else{
+        std::cout << "ERROR! COULD NOT OPEN Maps/Map0.txt" << std::endl;
+    }
+    ifs.close();
+
     for(int i = 0; i < 11; i++){
         for(int j = 0; j<19; j++){
             this->arrMap[i][j] = arrMap[i][j];
@@ -137,7 +126,7 @@ void GameState::drawMap(sf::RenderTarget* target){
     for (int i = 0; i < 11; i++){
         for(int j = 0; j < 19; j++){
             if(this->arrMap[i][j]){
-                sf::Sprite temp = sf::Sprite(this->textures["MAINMENU_BLOCK"]);
+                sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK"]);
                 temp.setPosition(sf::Vector2f(j*100 + 10, i*100 + 27));
                 target->draw(temp);
             }
@@ -166,13 +155,13 @@ void GameState::startEvent(std::string key){
         this->endState();
     }
     else if(key == "MAP2"){
-        //this->player->setPosition(5,3);
+        this->player->setPosition(5,3);
     }
     else if(key == "MAP3"){
-        //this->player->setPosition(5,3);
+        this->player->setPosition(5,3);
     }
     else if(key == "MAP4"){
-        //this->player->setPosition(5,3);
+        this->player->setPosition(5,3);
     }
 }
 

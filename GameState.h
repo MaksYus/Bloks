@@ -19,13 +19,15 @@ class GameState : public State
         sf::RectangleShape background;
         sf::Texture bgTexture;
         Player *player;
+        sf::Vector2i playerPosition;
+        int playerSpeed;
         std::map<std::string,sf::Vector2i> eventsPosition;
         std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
 
         void initKeybinds();
         void initTextures();
         void initPlayers();
-        void initMap();
+        void initMap(std::string mapName);
         void drawMap(sf::RenderTarget* target);
         void initEvents();
         void initBackground();

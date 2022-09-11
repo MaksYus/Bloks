@@ -1285,10 +1285,10 @@
 1662476119 c:\users\usufm\documents\github\bloks\entities\entity.h
 	<AnimationComponent.h>
 
-1662896127 source:c:\users\usufm\documents\github\bloks\entities\player.cpp
+1662902169 source:c:\users\usufm\documents\github\bloks\entities\player.cpp
 	"Player.h"
 
-1662486571 c:\users\usufm\documents\github\bloks\entities\player.h
+1662901648 c:\users\usufm\documents\github\bloks\entities\player.h
 	"Entity.h"
 
 1662044446 source:c:\users\usufm\documents\github\bloks\game.cpp
@@ -1314,11 +1314,11 @@
 	"SFML/Network.hpp"
 	"Player.h"
 
-1662896020 source:c:\users\usufm\documents\github\bloks\gamestate.cpp
+1662906061 source:c:\users\usufm\documents\github\bloks\gamestate.cpp
 	"GameState.h"
 	"Level1.h"
 
-1662564182 c:\users\usufm\documents\github\bloks\gamestate.h
+1662905791 c:\users\usufm\documents\github\bloks\gamestate.h
 	"State.h"
 
 1660480152 source:c:\users\usufm\documents\github\bloks\main.cpp

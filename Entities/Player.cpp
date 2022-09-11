@@ -166,6 +166,14 @@ void Player::move(const float dir_x, const float dir_y, const float& dt){
     }
 }
 
+bool Player::setPosition(const int x, const int y){
+    if(this->checkMap(x,y)){
+        this->position = sf::Vector2i(x,y);
+        this->secondPosition = sf::Vector2i(x,y);
+        this->setSpritePosition(position.x*100 + 10, position.y*100 + 27);
+        this->look = sf::Vector3f(0,1,0);
+    }
+}
 
 void Player::move1(const float dir_x, const float dir_y){
     this->position += sf::Vector2i(dir_x*1,dir_y*1);
@@ -197,4 +205,9 @@ std::string Player::getMovingState(std::string key){
             return "ROTATEBBR";
         }
     }
+}
+
+
+sf::Vector2i Player::getSecondPosition(){
+    return this->secondPosition;
 }
