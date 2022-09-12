@@ -1,0 +1,7 @@
+Прост
+OnPosition ;
+QUIT ;
+4 2 ;
+endState ;
+EVENT_END
+EVENTS_END

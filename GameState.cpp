@@ -1,15 +1,15 @@
 #include "GameState.h"
 #include "Level1.h"
 
-GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states):
+GameState::GameState(std::string mapName, sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states):
      State(window, supportedKeys,states)
 {
     this->initKeybinds();
     this->initTextures();
     this->initBackground();
-    this->initMap("Map0");
+    this->initMap(mapName);
     this->initPlayers();
-    this->initEvents("Map0");
+    this->initEvents(mapName);
     //this->logEvents();
 }
 
@@ -220,7 +220,7 @@ void GameState::eventQuit(){
 
 void GameState::eventLoadMap(std::string mapName){
     this->player->setPosition(this->playerPosition.x,this->playerPosition.y);
-    this->states->push(new Level1(this->window, this->supportedKeys, this->states));
+    this->states->push(new GameState(mapName,this->window, this->supportedKeys, this->states));
     this->endState();
 }
 
