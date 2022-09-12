@@ -83,8 +83,8 @@ void Player::move(const float dir_x, const float dir_y, const float& dt){
                 if(dir_y < 0) direction = "UP";
                 if(dir_y > 0) direction = "DOWN";
                 std::string movingState = this->getMovingState(direction);
-                std::cout << dir_x << " " << dir_y << " "<< movingState << std::endl;
-                std::cout << "TODOTODOTODOTODO" << std::endl;
+               // std::cout << dir_x << " " << dir_y << " "<< movingState << std::endl;
+                //std::cout << "TODOTODOTODOTODO" << std::endl;
                 if(movingState == "ROTATEBBU") {
                         //проверка возможности перемещения в точку
                         if(this->checkMap(this->secondPosition.x+dir_x,this->secondPosition.y+dir_y) && this->checkMap(this->position.x+dir_x,this->position.y+dir_y)){ //второстепенная && основная
@@ -161,7 +161,7 @@ void Player::move(const float dir_x, const float dir_y, const float& dt){
                             }
                 }
 
-                std::cout << std::endl << "pos: " << this->position.x << " " << this->position.y << std::endl << " secpos: " << this->secondPosition.x << " " << this->secondPosition.y<< std::endl << "look: " << this->look.x << " " << this->look.y << " " << this->look.z<< std::endl;
+                //std::cout << std::endl << "pos: " << this->position.x << " " << this->position.y << std::endl << " secpos: " << this->secondPosition.x << " " << this->secondPosition.y<< std::endl << "look: " << this->look.x << " " << this->look.y << " " << this->look.z<< std::endl;
         }
     }
 }
@@ -182,7 +182,7 @@ void Player::move1(const float dir_x, const float dir_y){
 }
 
 std::string Player::getMovingState(std::string key){
-    std::cout << this->look.x << " " << this->look.y << " "<<this->look.z << " "<< key << std::endl;
+    //std::cout << this->look.x << " " << this->look.y << " "<<this->look.z << " "<< key << std::endl;
     if (key == "UP" || key == "DOWN"){
        if((this->look.x > this->look.y) && (this->look.x > this->look.z)){
             return "ROTATEBBU";

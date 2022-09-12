@@ -10,6 +10,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
     this->initMap("Map0");
     this->initPlayers();
     this->initEvents("Map0");
+    //this->logEvents();
 }
 
 GameState::~GameState()
@@ -52,25 +53,31 @@ void GameState::render(sf::RenderTarget* target){
 void GameState::updateInput(const float& dt){
 
     //Update player Input
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP")))){
         this->player->move(0.f, -1.f, dt);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
+        this->checkEvent(this->player->getPosition());
+        this->checkEvent(this->player->getSecondPosition());
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_DOWN")))){
         this->player->move(0.f, 1.f, dt);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
+        this->checkEvent(this->player->getPosition());
+        this->checkEvent(this->player->getSecondPosition());
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_LEFT")))){
         this->player->move(-1.f, 0.f, dt);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
+        this->checkEvent(this->player->getPosition());
+        this->checkEvent(this->player->getSecondPosition());
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT")))){
         this->player->move(1.f, 0.f, dt);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
+        this->checkEvent(this->player->getPosition());
+        this->checkEvent(this->player->getSecondPosition());
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE")))){
         this->endState();
-
-/*
-    sf::Vector2i playerPosition = this->player->getPosition();
-    sf::Vector2i playerSecondPosition = this->player->getSecondPosition();
-    for (this->it_eventsPosition = this->eventsPosition.begin(); this->it_eventsPosition != this->eventsPosition.end(); this->it_eventsPosition++){
-        if((this->it_eventsPosition->second == playerPosition) || (this->it_eventsPosition->second == playerSecondPosition)){
-            this->startEvent(this->it_eventsPosition->first);
-        }
-    }*/
+        this->checkEvent(this->player->getPosition());
+        this->checkEvent(this->player->getSecondPosition());
+    }
     /*if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("INTERACT"))))
         this->player->interact(*this->player);*/
 }
@@ -90,57 +97,42 @@ void GameState::initPlayers(){
     this->player = new Player(this->playerPosition, this->textures, this->arrMap, this->playerSpeed);
 }
 
-void GameState::createEventStep(std::string eventName, std::string key, std::string eventKey, int row){
-    if(row == 0 && eventKey != "-") {
-        this->events[eventName].steps.push_back(Step(eventKey,sf::Vector2i(-1,-1),"",false));
-    }
-    if(eventKey == "teleport"){
-        if(row == 1) this->events[eventName].steps.back().positionToTp.x = std::stoi(key);
-        if(row == 2) this->events[eventName].steps.back().positionToTp.y = std::stoi(key);
-    }
-    if(eventKey == "loadMap"){
-        if(row == 1) this->events[eventName].steps.back().mapNameToLoad = key;
-    }
-    if(eventKey == "endState"){
-        this->events[eventName].steps.back().endState = true;
-    }
-}
-
 void GameState::initEvents(std::string mapName){
     std::ifstream ifs("Maps/Events/" + mapName + ".txt");
     std::string title = "None";
     if(ifs.is_open()){
         std::getline(ifs,title);
-        std::string eventType = "";
-        std::string eventName = "";
         std::string elemIfs = "";
         ifs >> elemIfs;
-        int lineEvent = 0;
-        int rowEvent = 0;
-        sf::Vector2i eventPosition = sf::Vector2i(-1,-1);
-
-        while(elemIfs != "EVENT_END"){
-            std::string eventKey = "";
-
-            while (elemIfs != ";"){
-                if(lineEvent == 0) eventType = elemIfs;
-                if(lineEvent == 1) eventName = elemIfs;
-                if(lineEvent == 2 && rowEvent == 0) eventPosition.x = std::stoi(elemIfs);
-                if(lineEvent == 2 && rowEvent == 1) eventPosition.y = std::stoi(elemIfs);
-                if(lineEvent >= 3 && rowEvent == 0) eventKey = elemIfs;
-                if(lineEvent >= 3) this->createEventStep(eventName, elemIfs, eventKey, rowEvent);
-
+        while(elemIfs != "EVENTS_END"){
+            std::string stepKey = "";
+            int lineEvent = 0;
+            int rowEvent = 0;
+            Event eve = Event();
+            while(true){
+                Step step = Step();
+                while (true){
+                    if(elemIfs == ";"|| elemIfs == "EVENT_END") {if(lineEvent > 2){eve.steps.push_back(step);} break;}
+                    if(lineEvent == 0) eve.eventType = elemIfs;
+                    if(lineEvent == 1) eve.name = elemIfs;
+                    if(lineEvent == 2 && rowEvent == 0) eve.position.x = std::stoi(elemIfs);
+                    if(lineEvent == 2 && rowEvent == 1) eve.position.y = std::stoi(elemIfs);
+                    if(lineEvent >= 3 && rowEvent == 0) stepKey = elemIfs;
+                    if(lineEvent >= 3) step.createEventStep(elemIfs, stepKey, rowEvent);
+                    ifs >> elemIfs;
+                    rowEvent++;
+                }
                 ifs >> elemIfs;
-                rowEvent++;
+                if(elemIfs == "EVENT_END" || elemIfs == "EVENTS_END") {
+                    this->events[eve.name] = eve;
+                    break;
+                }
+                rowEvent = 0;
+                lineEvent++;
             }
-            if(eventPosition.x != -1 && eventPosition.y != -1 && lineEvent == 2) {
-                this->events.insert(make_pair(eventName,Event(eventType,eventName,eventPosition)));
-            }
-            ifs >> elemIfs;
 
-            if(elemIfs == "EVENT_END"){ break;}
-            rowEvent = 0;
-            lineEvent++;
+            ifs >> elemIfs;
+            if(elemIfs == "EVENTS_END"){break;}
         }
     }
     else{
@@ -204,15 +196,14 @@ void GameState::checkEvent(sf::Vector2i position){
 }
 
 void GameState::startEvent(std::string key){
+    std::cout << key << std::endl;
     std::list<Step> eventSteps = this->events[key].steps;
-    std::cout << eventSteps.front().stepName << std::endl;
-    /*std::list<Step> it_steps = eventSteps.begin();
-    for(std::list<Step> it_steps = eventSteps.begin(); it_steps != eventSteps.end(); it_steps++){
-        Step step = it_steps->first;
-        if(step.stepName == "QUIT") this->eventQuit();
+    for(std::list<Step>::iterator it_steps = eventSteps.begin(); it_steps != eventSteps.end(); it_steps++){
+        Step step = *it_steps;
         if(step.stepName == "teleport") this->eventTeleport(step.positionToTp);
         if(step.stepName == "loadMap") this->eventLoadMap(step.mapNameToLoad);
-    }*/
+        if(step.stepName == "endState") this->eventQuit();
+    }
 }
 
 void GameState::eventOnPosition(){
@@ -231,4 +222,17 @@ void GameState::eventLoadMap(std::string mapName){
     this->player->setPosition(this->playerPosition.x,this->playerPosition.y);
     this->states->push(new Level1(this->window, this->supportedKeys, this->states));
     this->endState();
+}
+
+void GameState::logEvents(){
+    for(this->it_events = this->events.begin(); this->it_events != this->events.end(); this->it_events++){
+        std::cout << this->it_events->second.eventType<< " " << this->it_events->second.name<<" position: "<<this->it_events->second.position.x<<" "<< this->it_events->second.position.y<< " count steps: " << this->it_events->second.steps.size()<<std::endl;
+    }
+}
+
+void GameState::logSteps(std::string eventName){
+    std::list<Step> steps = this->events[eventName].steps;
+    for(std::list<Step>::iterator it_steps = steps.begin(); it_steps != steps.end();it_steps++){
+        std::cout << it_steps->stepName << " "<< it_steps->positionToTp.x << " "<<it_steps->positionToTp.y << " " <<it_steps->mapNameToLoad << " "<<it_steps->endState << std::endl;
+    }
 }

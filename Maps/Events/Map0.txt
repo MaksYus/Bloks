@@ -3,15 +3,16 @@ OnPosition ;
 QUIT ;
 5 5 ;
 endState ;
-- ;
+EVENT_END
 OnPosition ;
 LoadMap1 ;
 7 5 ;
 loadMap Map1 ;
 teleport 5 3 ;
+EVENT_END
 OnPosition ; 
 TeleportStart ;
 9 5 ;
 teleport 5 3 ;
-- ;
 EVENT_END
+EVENTS_END
