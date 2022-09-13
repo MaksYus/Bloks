@@ -1,0 +1,7 @@
+комент
+OnPosition ;
+QUIT ;
+12 1 ;
+loadMap Map3 ;
+teleport 3 4 ;
+EVENTS_END
