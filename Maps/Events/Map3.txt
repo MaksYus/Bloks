@@ -2,6 +2,5 @@
 OnPosition ;
 QUIT ;
 12 1 ;
-loadMap Map3 ;
-teleport 3 4 ;
+endState ;
 EVENTS_END
