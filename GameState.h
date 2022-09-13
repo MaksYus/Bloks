@@ -72,19 +72,31 @@ class GameState : public State
         Player *player;
         sf::Vector2i playerPosition;
         int playerSpeed;
-        //std::map<std::string,sf::Vector2i> eventsPosition;
-        //std::map<std::string,sf::Vector2i>::iterator it_eventsPosition = eventsPosition.begin();
-        //std::map<std::string,std::list<std::string>> eventsSteps;
-        //std::map<std::string,std::list<std::string>>::iterator it_eventsSteps = eventsSteps.begin();
 
         std::map<std::string,Event> events;
         std::map<std::string,Event>::iterator it_events = events.begin();
+
+        void drawMap(sf::RenderTarget* target);
+        void drawMiddle(int x, int y, sf::RenderTarget* target);
+        void drawHoleU(int x, int y, sf::RenderTarget* target);
+        void drawHoleD(int x, int y, sf::RenderTarget* target);
+        void drawHoleR(int x, int y, sf::RenderTarget* target);
+        void drawHoleL(int x, int y, sf::RenderTarget* target);
+        void drawCornerUL(int x, int y, sf::RenderTarget* target);
+        void drawCornerUR(int x, int y, sf::RenderTarget* target);
+        void drawCornerDR(int x, int y, sf::RenderTarget* target);
+        void drawCornerDL(int x, int y, sf::RenderTarget* target);
+        void drawLineL(int x, int y, sf::RenderTarget* target);
+        void drawLineR(int x, int y, sf::RenderTarget* target);
+        void drawLineD(int x, int y, sf::RenderTarget* target);
+        void drawDoubleLineU(int x, int y, sf::RenderTarget* target);
+        void drawDoubleLineR(int x, int y, sf::RenderTarget* target);
+        void drawLineU(int x, int y, sf::RenderTarget* target);
 
         void initKeybinds();
         void initTextures();
         void initPlayers();
         void initMap(std::string mapName);
-        void drawMap(sf::RenderTarget* target);
         void initEvents(std::string mapName);
         void initBackground();
 
