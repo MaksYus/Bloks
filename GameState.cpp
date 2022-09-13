@@ -220,8 +220,9 @@ void GameState::eventQuit(){
 
 void GameState::eventLoadMap(std::string mapName){
     this->player->setPosition(this->playerPosition.x,this->playerPosition.y);
-    this->states->push(new GameState(mapName,this->window, this->supportedKeys, this->states));
     this->endState();
+    this->states->push(new GameState(mapName,this->window, this->supportedKeys, this->states));
+
 }
 
 void GameState::logEvents(){

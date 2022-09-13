@@ -19,6 +19,7 @@ const bool & State::getQuit() const{
 }
 
 void State::endState(){
+    std::cout << "EXIT" << std::endl;
     this->quit = true;
 }
 

@@ -1,7 +1,7 @@
 Прост
 OnPosition ;
 QUIT ;
-4 2 ;
+4 10 ;
 endState ;
 EVENT_END
 OnPosition ;

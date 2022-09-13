@@ -1,0 +1,7 @@
+бляяяяяя
+OnPosition ;
+LoadMap3 ;
+3 4 ;
+loadMap Map3 ;
+teleport 13 5 ;
+EVENTS_END

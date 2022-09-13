@@ -10,6 +10,18 @@ LoadMap1 ;
 loadMap Map1 ;
 teleport 5 3 ;
 EVENT_END
+OnPosition ;
+LoadMap2 ;
+9 5 ;
+loadMap Map2 ;
+teleport 5 3 ;
+EVENT_END
+OnPosition ;
+LoadMap3 ;
+11 5 ;
+loadMap Map3 ;
+teleport 5 3 ;
+EVENT_END
 OnPosition ; 
 TeleportStart ;
 9 5 ;
