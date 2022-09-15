@@ -24,7 +24,13 @@ teleport 5 3 ;
 EVENT_END
 OnPosition ; 
 TeleportStart ;
-9 5 ;
+1 1 ;
+teleport 5 3 ;
+EVENT_END
+OnPosition ;
+LoadMap4 ;
+13 5 ;
+loadMap Map4 ;
 teleport 5 3 ;
 EVENT_END
 EVENTS_END

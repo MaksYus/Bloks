@@ -76,6 +76,9 @@ class GameState : public State
         std::map<std::string,Event> events;
         std::map<std::string,Event>::iterator it_events = events.begin();
 
+        std::map<std::string, sf::Texture> mapTextures;
+
+        //отрисовка карты
         void drawMap(sf::RenderTarget* target);
         void drawMiddle(int x, int y, sf::RenderTarget* target);
         void drawHoleU(int x, int y, sf::RenderTarget* target);
@@ -92,9 +95,11 @@ class GameState : public State
         void drawDoubleLineU(int x, int y, sf::RenderTarget* target);
         void drawDoubleLineR(int x, int y, sf::RenderTarget* target);
         void drawLineU(int x, int y, sf::RenderTarget* target);
+        void drawPortal(int x, int y, sf::RenderTarget* target);
 
         void initKeybinds();
         void initTextures();
+        void initMapTextures();
         void initPlayers();
         void initMap(std::string mapName);
         void initEvents(std::string mapName);

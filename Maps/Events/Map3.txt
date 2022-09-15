@@ -1,6 +1,13 @@
 комент
 OnPosition ;
-QUIT ;
-12 1 ;
-endState ;
+LoadMap4 ;
+2 4 ;
+loadMap Map4 ;
+teleport 4 4 ;
+EVENT_END
+OnPosition ;
+TeleportToStart ;
+1 4 ;
+loadMap Map0 ;
+teleport 4 4 ;
 EVENTS_END

@@ -26,53 +26,58 @@ void drawSpriteInPos(int x, int y, sf::RenderTarget* target, sf::Sprite sprite){
     target->draw(sprite);
 }
 
+void GameState::drawPortal(int x, int y, sf::RenderTarget* target){
+    sf::Sprite temp = sf::Sprite(this->mapTextures["PORTAL"]);
+    drawSpriteInPos(x,y,target,temp);
+}
+
 // middle
 void GameState::drawMiddle(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_MIDDLE"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_MIDDLE"]);
     drawSpriteInPos(x,y,target,temp);
 }
 
 // hole
 void GameState::drawHoleU(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_HOLE_U"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_HOLE_U"]);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawHoleD(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_HOLE_U"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_HOLE_U"]);
     temp.setOrigin(0.f,100.f);
     temp.setScale(1.f,-1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawHoleR(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_HOLE_L"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_HOLE_L"]);
     temp.setOrigin(100.f,0.f);
     temp.setScale(-1.f,1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawHoleL(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_HOLE_L"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_HOLE_L"]);
     drawSpriteInPos(x,y,target,temp);
 }
 
 // corner
 void GameState::drawCornerUL(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_U_CORN"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_U_CORN"]);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawCornerUR(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_U_CORN"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_U_CORN"]);
     temp.setOrigin(100.f,0.f);
     temp.setScale(-1.f,1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawCornerDR(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_U_CORN"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_U_CORN"]);
     temp.setOrigin(100.f,100.f);
     temp.setScale(-1.f,-1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawCornerDL(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_U_CORN"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_U_CORN"]);
     temp.setOrigin(0.f,100.f);
     temp.setScale(1.f,-1.f);
     drawSpriteInPos(x,y,target,temp);
@@ -80,33 +85,33 @@ void GameState::drawCornerDL(int x, int y, sf::RenderTarget* target){
 
 //line
 void GameState::drawLineL(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_LINE_R"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_LINE_R"]);
     temp.setOrigin(100.f,0.f);
     temp.setScale(-1.f,1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawLineR(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_LINE_R"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_LINE_R"]);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawLineD(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_LINE_U"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_LINE_U"]);
     temp.setOrigin(0.f,100.f);
     temp.setScale(1.f,-1.f);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawLineU(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_LINE_U"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_LINE_U"]);
     drawSpriteInPos(x,y,target,temp);
 }
 
 // double line
 void GameState::drawDoubleLineU(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_DOUBLE_LINE_U"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_DOUBLE_LINE_U"]);
     drawSpriteInPos(x,y,target,temp);
 }
 void GameState::drawDoubleLineR(int x, int y, sf::RenderTarget* target){
-    sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK_DOUBLE_LINE_R"]);
+    sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK_DOUBLE_LINE_R"]);
     drawSpriteInPos(x,y,target,temp);
 }
 
@@ -114,9 +119,11 @@ void GameState::drawMap(sf::RenderTarget* target){
     for (int i = 0; i < 11; i++){
         for(int j = 0; j < 19; j++){
             if(this->arrMap[i][j]){
-                sf::Sprite temp = sf::Sprite(this->textures["GRASS_BLOCK"]);
+                sf::Sprite temp = sf::Sprite(this->mapTextures["GRASS_BLOCK"]);
                 temp.setPosition(sf::Vector2f(j*100 + 10, i*100 + 27));
                 target->draw(temp);
+
+                if(this->arrMap[i][j] == 4) {this->drawPortal(i,j,target);} // отрисовка портала
             }
             else{
                 bool l = 0;
@@ -223,42 +230,49 @@ void GameState::initTextures(){
     if(!temp.loadFromFile("ResourceFiles/Images/Sprites/player/Dwarf Left Animation.png"))
         std::cout << "ERROR! cun't load texture player" << std::endl;
     this->textures["PLAYER_SHEET"] = temp;
+}
 
+void GameState::initMapTextures(){
+    sf::Texture temp;
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlock.png"))
         std::cout << "ERROR! cun't load texture GrassBlock" << std::endl;
-    this->textures["GRASS_BLOCK"] = temp;
+    this->mapTextures["GRASS_BLOCK"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockUpperCorner.png"))
         std::cout << "ERROR! cun't load texture GrassBlockUpperCorner" << std::endl;
-    this->textures["GRASS_BLOCK_U_CORN"] = temp;
+    this->mapTextures["GRASS_BLOCK_U_CORN"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockMiddle.png"))
         std::cout << "ERROR! cun't load texture GrassBlockMiddle" << std::endl;
-    this->textures["GRASS_BLOCK_MIDDLE"] = temp;
+    this->mapTextures["GRASS_BLOCK_MIDDLE"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockHoleUp.png"))
         std::cout << "ERROR! cun't load texture GrassBlockHoleUp" << std::endl;
-    this->textures["GRASS_BLOCK_HOLE_U"] = temp;
+    this->mapTextures["GRASS_BLOCK_HOLE_U"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockHoleLeft.png"))
         std::cout << "ERROR! cun't load texture GrassBlockHoleLeft" << std::endl;
-    this->textures["GRASS_BLOCK_HOLE_L"] = temp;
+    this->mapTextures["GRASS_BLOCK_HOLE_L"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockLineRight.png"))
         std::cout << "ERROR! cun't load texture GrassBlockLineRight" << std::endl;
-    this->textures["GRASS_BLOCK_LINE_R"] = temp;
+    this->mapTextures["GRASS_BLOCK_LINE_R"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockLineUp.png"))
         std::cout << "ERROR! cun't load texture GrassBlockLineUp" << std::endl;
-    this->textures["GRASS_BLOCK_LINE_U"] = temp;
+    this->mapTextures["GRASS_BLOCK_LINE_U"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockDoubleLineRight.png"))
         std::cout << "ERROR! cun't load texture GrassBlockDoubleLineRight" << std::endl;
-    this->textures["GRASS_BLOCK_DOUBLE_LINE_R"] = temp;
+    this->mapTextures["GRASS_BLOCK_DOUBLE_LINE_R"] = temp;
 
     if(!temp.loadFromFile("ResourceFiles/Images/Textures/GrassBlockDoubleLineUp.png"))
         std::cout << "ERROR! cun't load texture GrassBlockDoubleLineUp" << std::endl;
-    this->textures["GRASS_BLOCK_DOUBLE_LINE_U"] = temp;
+    this->mapTextures["GRASS_BLOCK_DOUBLE_LINE_U"] = temp;
+
+    if(!temp.loadFromFile("ResourceFiles/Images/Textures/Portal.png"))
+        std::cout << "ERROR! cun't load texture Portal" << std::endl;
+    this->mapTextures["PORTAL"] = temp;
 }
 
 void GameState::initPlayers(){
@@ -332,6 +346,8 @@ void GameState::initMap(std::string mapName){
             this->arrMap[i][j] = arrMap[i][j];
         }
     }
+
+    this->initMapTextures();
 }
 
 void GameState::initBackground(){
