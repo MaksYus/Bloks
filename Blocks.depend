@@ -679,18 +679,8 @@
 1663347462 source:c:\users\usufm\documents\github\bloks\components\animationcomponent.cpp
 	"AnimationComponent.h"
 
-1663347462 c:\users\usufm\documents\github\bloks\components\animationcomponent.h
-	<iostream>
-	<map>
-	<list>
-	<fstream>
-	<sstream>
-	<vector>
-	"SFML/System.hpp"
-	"SFML/Window.hpp"
-	"SFML/Graphics.hpp"
-	"SFML/Audio.hpp"
-	"SFML/Network.hpp"
+1663348337 c:\users\usufm\documents\github\bloks\components\animationcomponent.h
+	"Animation.h"
 
 1663347462 c:\users\usufm\documents\github\bloks\sfml\include\sfml\system.hpp
 	<SFML/Config.hpp>
@@ -1358,6 +1348,22 @@
 	"BackgroundAnimationComponent.h"
 
 1663347845 c:\users\usufm\documents\github\bloks\components\backgroundanimationcomponent.h
+	<iostream>
+	<map>
+	<list>
+	<fstream>
+	<sstream>
+	<vector>
+	"SFML/System.hpp"
+	"SFML/Window.hpp"
+	"SFML/Graphics.hpp"
+	"SFML/Audio.hpp"
+	"SFML/Network.hpp"
+
+1663348262 source:c:\users\usufm\documents\github\bloks\components\animation.cpp
+	"Animation.h"
+
+1663348221 c:\users\usufm\documents\github\bloks\components\animation.h
 	<iostream>
 	<map>
 	<list>
