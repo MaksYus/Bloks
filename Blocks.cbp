@@ -65,8 +65,6 @@
 		<Unit filename="Components/Animation.h" />
 		<Unit filename="Components/AnimationComponent.cpp" />
 		<Unit filename="Components/AnimationComponent.h" />
-		<Unit filename="Components/BackgroundAnimationComponent.cpp" />
-		<Unit filename="Components/BackgroundAnimationComponent.h" />
 		<Unit filename="Entities/Entity.cpp" />
 		<Unit filename="Entities/Entity.h" />
 		<Unit filename="Entities/Player.cpp" />

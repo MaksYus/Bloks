@@ -66,7 +66,6 @@ class GameState : public State
 
     private:
 
-
         sf::RectangleShape background;
         sf::Texture bgTexture;
         Player *player;

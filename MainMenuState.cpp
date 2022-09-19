@@ -5,6 +5,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 {
     this->initVariables();
     this->initBackground();
+    this->initAnimations();
     this->initFonts();
     this->initKeybinds();
     this->initButtons();
@@ -16,6 +17,9 @@ MainMenuState::~MainMenuState()
     for (int i = 0; this->it != this->buttons.end(); this->it++, i++)
         delete this->it->second;
    // delete this->gamestate_btn;
+}
+
+void MainMenuState::initAnimations(){
 }
 
 void MainMenuState::initVariables(){
@@ -31,6 +35,12 @@ void MainMenuState::initBackground(){
     else {
         std::cout << "ERROR! Не удалось загрузить задник главного меню" << std::endl;
     }
+
+
+    //в анимацию передаётся
+    //Animation(sf::Sprite& текущий спрайт, sf::Texture& лист со всеми спрайтами,
+    //            float animation_timer,
+    //            int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height);
 }
 
 void MainMenuState::initFonts(){

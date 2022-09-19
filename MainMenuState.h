@@ -24,10 +24,13 @@ class MainMenuState:
         sf::RectangleShape background;
         sf::Font font;
         sf::Texture bgTexture;
+        sf::Sprite bgSprite;
+        sf::Texture bgTextureSheet;
 
         std::map<std::string, Button*> buttons;
         std::map<std::string, Button*>::iterator it = buttons.begin();
 
+        void initAnimations();
         void initVariables();
         void initBackground();
         void initFonts();
