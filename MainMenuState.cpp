@@ -17,9 +17,16 @@ MainMenuState::~MainMenuState()
     for (int i = 0; this->it != this->buttons.end(); this->it++, i++)
         delete this->it->second;
    // delete this->gamestate_btn;
+   delete this->animationComponent;
+}
+
+void MainMenuState::updateAnimation(const float& dt, std::string key){
+        this->animationComponent->play(key, dt);
 }
 
 void MainMenuState::initAnimations(){
+    this->animationComponent = new AnimationComponent(this->bgSprite);
+    this->animationComponent->addAnimation(this->bgTextureSheet,"NEXTMENU",20.f,0,0, 8,0,64,64);
 }
 
 void MainMenuState::initVariables(){

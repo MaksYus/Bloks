@@ -14,6 +14,7 @@ class MainMenuState:
 
         void updateInput(const float& dt);
         void updateButtons();
+        void updateAnimation(const float& dt, std::string key);
         void update(const float& dt);
         void renderButtons(sf::RenderTarget& target);
         void render(sf::RenderTarget* target = NULL);
@@ -26,6 +27,8 @@ class MainMenuState:
         sf::Texture bgTexture;
         sf::Sprite bgSprite;
         sf::Texture bgTextureSheet;
+
+        AnimationComponent* animationComponent;
 
         std::map<std::string, Button*> buttons;
         std::map<std::string, Button*>::iterator it = buttons.begin();
