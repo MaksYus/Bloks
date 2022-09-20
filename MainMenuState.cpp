@@ -39,11 +39,12 @@ void MainMenuState::initAnimations(){
     this->bgSprite.setScale(static_cast<float>(this->window->getSize().x)/240, static_cast<float>(this->window->getSize().y)/135);
 
     this->animationComponent = new AnimationComponent(this->bgSprite);
-    this->animationComponent->addAnimation(this->bgTextureSheet,"NEXTMENU",20.f,0,0, 8,0,240,135);
+    this->animationComponent->addAnimation(this->bgTextureSheet,"NEXTMENU",5.f,0,0, 7,0,240,135);
 }
 
 void MainMenuState::initVariables(){
     animationNMPlaing = false;
+    startGame = false;
 }
 
 void MainMenuState::initBackground(){
@@ -115,6 +116,7 @@ void MainMenuState::update(const float& dt){
 
     if(!animationNMPlaing) this->updateButtons(); // отключаем кнопки во время анимации
     this->updateAnimation(dt);
+    if(!animationNMPlaing && startGame) {this->states->push(new GameState("Map0",this->window, this->supportedKeys, this->states)); startGame = false;}
 }
 
 void MainMenuState::updateButtons(){
@@ -128,7 +130,9 @@ void MainMenuState::updateButtons(){
     }
 
     if(this->buttons["GAME_STATE"]->isPressed()){
-        this->states->push(new GameState("Map0",this->window, this->supportedKeys, this->states));
+        startGame = true;
+        animationNMPlaing = true;
+       // this->states->push(new GameState("Map0",this->window, this->supportedKeys, this->states));
     }
 
     if(this->buttons["TEST_STATE"]->isPressed()){

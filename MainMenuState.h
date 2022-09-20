@@ -35,6 +35,7 @@ class MainMenuState:
         std::map<std::string, Button*>::iterator it = buttons.begin();
 
         bool animationNMPlaing;
+        bool startGame;
 
         void initAnimations();
         void initVariables();
