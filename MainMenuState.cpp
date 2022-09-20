@@ -20,17 +20,30 @@ MainMenuState::~MainMenuState()
    delete this->animationComponent;
 }
 
-void MainMenuState::updateAnimation(const float& dt, std::string key){
-        this->animationComponent->play(key, dt);
+void MainMenuState::updateAnimation(const float& dt){
+    if(animationNMPlaing){
+        this->animationComponent->play("NEXTMENU", dt,true);
+        if(this->animationComponent->isDone("NEXTMENU")){
+            animationNMPlaing = false;
+        }
+    }
 }
 
 void MainMenuState::initAnimations(){
+    //240*135 - размер в пикселях текстурки окна
+    sf::Texture temp;
+    if(!temp.loadFromFile("ResourceFiles/Images/Backgrounds/MainMenuAnimationNext.png"))
+        std::cout << "ERROR! cun't load bgAnimation next step" << std::endl;
+    this->bgTextureSheet = temp;
+
+    this->bgSprite.setScale(static_cast<float>(this->window->getSize().x)/240, static_cast<float>(this->window->getSize().y)/135);
+
     this->animationComponent = new AnimationComponent(this->bgSprite);
-    this->animationComponent->addAnimation(this->bgTextureSheet,"NEXTMENU",20.f,0,0, 8,0,64,64);
+    this->animationComponent->addAnimation(this->bgTextureSheet,"NEXTMENU",20.f,0,0, 8,0,240,135);
 }
 
 void MainMenuState::initVariables(){
-
+    animationNMPlaing = false;
 }
 
 void MainMenuState::initBackground(){
@@ -40,14 +53,8 @@ void MainMenuState::initBackground(){
         this->background.setTexture(&this->bgTexture);
     }
     else {
-        std::cout << "ERROR! Не удалось загрузить задник главного меню" << std::endl;
+        std::cout << "ERROR! cunt load MainMenu background" << std::endl;
     }
-
-
-    //в анимацию передаётся
-    //Animation(sf::Sprite& текущий спрайт, sf::Texture& лист со всеми спрайтами,
-    //            float animation_timer,
-    //            int start_frame_x, int start_frame_y, int frames_x, int frames_y, int width, int height);
 }
 
 void MainMenuState::initFonts(){
@@ -106,8 +113,8 @@ void MainMenuState::update(const float& dt){
     this->updateMousePosition();
     this->updateInput(dt);
 
-    this->updateButtons();
-
+    if(!animationNMPlaing) this->updateButtons(); // отключаем кнопки во время анимации
+    this->updateAnimation(dt);
 }
 
 void MainMenuState::updateButtons(){
@@ -125,7 +132,7 @@ void MainMenuState::updateButtons(){
     }
 
     if(this->buttons["TEST_STATE"]->isPressed()){
-    //    начать проигрывание анимации
+        animationNMPlaing = true;
     }
 }
 
@@ -138,8 +145,9 @@ void MainMenuState::renderButtons(sf::RenderTarget& target){
 void MainMenuState::render(sf::RenderTarget* target){
     if (!target)
         target = this->window;
-    target->draw(this->background);
-    this->renderButtons(*target);
+    if(!animationNMPlaing) target->draw(this->background);
+    if(!animationNMPlaing) this->renderButtons(*target);
+    if (animationNMPlaing) target->draw(this->bgSprite);
 
     //TODO Remove
     sf::Text mouseText;

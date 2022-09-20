@@ -14,7 +14,7 @@ class MainMenuState:
 
         void updateInput(const float& dt);
         void updateButtons();
-        void updateAnimation(const float& dt, std::string key);
+        void updateAnimation(const float& dt);
         void update(const float& dt);
         void renderButtons(sf::RenderTarget& target);
         void render(sf::RenderTarget* target = NULL);
@@ -30,8 +30,11 @@ class MainMenuState:
 
         AnimationComponent* animationComponent;
 
+
         std::map<std::string, Button*> buttons;
         std::map<std::string, Button*>::iterator it = buttons.begin();
+
+        bool animationNMPlaing;
 
         void initAnimations();
         void initVariables();
